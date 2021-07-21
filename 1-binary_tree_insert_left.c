@@ -10,21 +10,12 @@
 
 binary_tree_t *binary_tree_insert_left(binary_tree_t *parent, int value)
 {
-	binary_tree_t *new_node, *current;
+	binary_tree_t *new_node;
 
 	if (parent == NULL)
 		return (NULL);
-
-	new_node = malloc(sizeof(binary_tree_t));
-	if (new_node == NULL)
-	{
-		return (NULL);
-	}
-
-	new_node->n = value;
-	new_node->parent = parent;
-	new_node->left = NULL;
-	new_node->right = NULL;
+	
+	new_node = binary_tree_node(parent, value);
 
 	if (parent->left == NULL)
 	{
@@ -32,14 +23,11 @@ binary_tree_t *binary_tree_insert_left(binary_tree_t *parent, int value)
 	}
 	else
 	{
-		/*The parent node is not null so we have to figure out at what
-		 * point exactly to add the node because the node with the
-		 * smaller value has to be on the left so i.e if the parent has
-		 * one node on the left whose value is smaller than the value of
-		 * the node we want to add we will have to push the parent's
-		 * left node lower and then make our new node the child of the
-		 * parent node
-		 */
+		
+		new_node->left = parent->left;
+		parent->left = new_node;
+		new_node->left->parent = new_node;
+
 	}
 
 	return (new_node);
